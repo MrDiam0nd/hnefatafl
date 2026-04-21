@@ -34,10 +34,6 @@ PROJECT_VERSION       ?= 1.0
 PROJECT_BUILD_PATH    ?= .
 PROJECT_SOURCE_FILES  ?= main.c
 
-RAYLIB_SRC_PATH       ?= /home/vilmer/raylib/src
-RAYLIB_INCLUDE_PATH   ?= $(RAYLIB_SRC_PATH)
-RAYLIB_LIB_PATH       ?= $(RAYLIB_SRC_PATH)
-
 # Library type used for raylib: STATIC (.a) or SHARED (.so/.dll)
 RAYLIB_LIBTYPE        ?= STATIC
 
@@ -91,6 +87,19 @@ ifeq ($(PLATFORM),PLATFORM_DRM)
         PLATFORM_OS = LINUX
     endif
 endif
+
+
+# define raylib path
+RAYLIB_SRC_PATH       ?= /home/vilmer/raylib/src
+
+ifeq ($(PLATFORM),PLATFORM_DESKTOP)
+    ifeq ($(PLATFORM_OS),WINDOWS)
+        # OSX default compiler
+        RAYLIB_SRC_PATH       = C:/raylib/raylib/src
+    endif
+endif
+RAYLIB_INCLUDE_PATH   ?= $(RAYLIB_SRC_PATH)
+RAYLIB_LIB_PATH       ?= $(RAYLIB_SRC_PATH)
 
 ifeq ($(PLATFORM),PLATFORM_WEB)
     # Emscripten required variables
@@ -200,7 +209,8 @@ LDFLAGS = -L. -L$(RAYLIB_LIB_PATH)
 ifeq ($(PLATFORM),PLATFORM_DESKTOP)
     ifeq ($(PLATFORM_OS),WINDOWS)
         # NOTE: The resource .rc file contains windows executable icon and properties
-        LDFLAGS += $(PROJECT_NAME).rc.data
+        # LDFLAGS += $(PROJECT_NAME).rc.data
+
         # -Wl,--subsystem,windows hides the console window
         ifeq ($(BUILD_MODE), RELEASE)
             LDFLAGS += -Wl,--subsystem,windows
@@ -331,7 +341,8 @@ $(PROJECT_NAME): $(OBJS)
 clean:
 ifeq ($(PLATFORM),PLATFORM_DESKTOP)
     ifeq ($(PLATFORM_OS),WINDOWS)
-		del *.o *.exe /s
+		find . -type f -executable -delete
+		rm -fv *.o
     endif
     ifeq ($(PLATFORM_OS),LINUX)
 		find . -type f -executable -delete
@@ -349,4 +360,3 @@ ifeq ($(PLATFORM),PLATFORM_WEB)
 	del *.o *.html *.js
 endif
 	@echo Cleaning done
-
