@@ -54,6 +54,11 @@ int main()
     printf("\n");
     */
 
+    int mousex;
+    int mousey;
+
+    loadboard(&board);
+
     while(!WindowShouldClose())
     {
 	if(IsWindowResized())
@@ -62,7 +67,10 @@ int main()
 	    windowHeight = GetScreenHeight();
 	}
 
-	DrawBoard(windowWidth,windowHeight,board);
+	mousex = GetMouseX(); 
+	mousey = GetMouseY();
+
+	DrawBoard(windowWidth,windowHeight,&board);
     }
 
     CloseWindow();
@@ -171,4 +179,33 @@ void clearbit(uint64_t* num, int pos)
 {
     *num = *num & ~((uint64_t)0x1 << pos);
     return;
+}
+
+int collisionpointrect(int px,int py, int rx, int ry, int sx, int sy)
+{
+    if((px>=rx) && (px<=(rx+sx)) && (py>=ry) && (py<=(ry+sy)))
+    {
+	return 1;
+    }
+    return 0;
+}
+
+void loadboard(struct board *board)
+{
+    for(int i = 0; i< 81; i++)
+    {
+	if((i==3)||(i==4)||(i==5)||(i==4+1*9) || (i==0+3*9)||(i==0+4*9)||(i==0+5*9)||(i==1+4*9) || (i==8+3*9)||(i==8+4*9)||(i==8+5*9)||(i==7+4*9) || (i==3+8*9)||(i==4+8*9)||(i==5+8*9)||(i==4+7*9))
+	{
+	    setpiece(board, i,0x1);
+	}else if((i==4+2*9)||(i==4+3*9) || (i==2+4*9)||(i==3+4*9) || (i==5+4*9)||(i==6+4*9) || (i==4+5*9)||(i==4+6*9))
+	{
+	    setpiece(board, i,0x2);
+	}else if(i==4+4*9)
+	{
+	    setpiece(board,i,0x3);
+	}else
+	{
+	    setpiece(board, i,0x0);
+	}
+    }
 }

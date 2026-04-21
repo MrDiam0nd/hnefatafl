@@ -1,4 +1,8 @@
-#pragma once
 #include "main.h"
+#pragma once
 
-void DrawBoard(int width, int height, struct board board);
+extern int edgedist;
+extern float bordersize;
+extern float gapsize;
+
+void DrawBoard(int width, int height, struct board *board);
