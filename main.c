@@ -231,34 +231,51 @@ void checkmove(struct board *board,int x, int y)
 
     if(x+1 < 9)
     {
-	if(checkcapture(*board,x,y,x+1,y) ==1)
+	switch (checkcapture(*board,x,y,x+1,y))
 	{
+case 1: 
 	    setpiece(board,x+1+y*9,0x0);
+case 2:
+	    setpiece(board,x+1+y*9,0x0);
+	    board->turn = 2;
+
 	}
     }
     if(y+1 < 9)
     {
-	if(checkcapture(*board,x,y,x,y+1) ==1)
+	switch (checkcapture(*board,x,y,x,y+1))
 	{
+case 1: 
 	    setpiece(board,x+(y+1)*9,0x0);
-	}
+case 2:
+	    setpiece(board,x+(y+1)*9,0x0);
+	    board->turn = 2;
 
+	}
     }
     if(x-1 >= 0)
     {
-	if(checkcapture(*board,x,y,x-1,y) ==1)
+	switch (checkcapture(*board,x,y,x-1,y))
 	{
+case 1: 
 	    setpiece(board,x-1+y*9,0x0);
-	}
+case 2:
+	    setpiece(board,x-1+y*9,0x0);
+	    board->turn = 2;
 
+	}
     }
     if(y-1 >= 0)
     {
-	if(checkcapture(*board,x,y,x,y-1) ==1)
+	switch (checkcapture(*board,x,y,x,y-1))
 	{
+case 1: 
 	    setpiece(board,x+(y-1)*9,0x0);
-	}
+case 2:
+	    setpiece(board,x+(y-1)*9,0x0);
+	    board->turn = 2;
 
+	}
     }
 }
 
@@ -299,7 +316,7 @@ int checkcapture(struct board board,int px,int py, int ox, int oy)
     }
     if(getpiece(board,ox+(oy)*9) == 0x3 && piece == 0x1)
     { 
-	int kill = 1;
+	int kill = 2;
 	if(ox+diffx < 9 && ox+diffx >= 0 && oy+diffy < 9 && oy+diffy >= 0)
 	{
 	    if(getpiece(board,ox+diffx+(oy+diffy)*9)!=0x1 && (ox+diffx+(oy+diffy)*9!=0+0*9) && (ox+diffx+(oy+diffy)*9!=0+8*9) && (ox+diffx+(oy+diffy)*9!=8+0*9) && (ox+diffx+(oy+diffy)*9!=8+8*9) && (ox+diffx+(oy+diffy)*9!=4+4*9))
