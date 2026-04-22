@@ -61,16 +61,13 @@ int main()
 
     while(!WindowShouldClose())
     {
-	if(IsWindowResized())
-	{
-	    windowWidth = GetScreenWidth();
-	    windowHeight = GetScreenHeight();
-	}
+	    if(IsWindowResized())
+	    {
+	        windowWidth = GetScreenWidth();
+	        windowHeight = GetScreenHeight();
+	    }
 
-	mousex = GetMouseX(); 
-	mousey = GetMouseY();
-
-	DrawBoard(windowWidth,windowHeight,&board);
+	    DrawBoard(windowWidth,windowHeight,&board);
     }
 
     CloseWindow();
@@ -81,6 +78,15 @@ int main()
 int min(int a,int b)
 {
     if(a<b)
+    {
+	return a;
+    }
+    return b;
+}
+
+int max(int a,int b)
+{
+    if(a>b)
     {
 	return a;
     }
@@ -207,5 +213,15 @@ void loadboard(struct board *board)
 	{
 	    setpiece(board, i,0x0);
 	}
+    }
+
+    board->turn = 0;
+}
+
+void checkcaptures(struct board *board,int x, int y)
+{
+    if(getpiece(*board,x+y*9) == 0x1)
+    {   
+        int checkpiece = 0x2;
     }
 }

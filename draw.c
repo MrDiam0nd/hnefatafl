@@ -76,13 +76,40 @@ void DrawBoard(int width, int height, struct board *board)
 		{
 		    if(chosenx != -1 && choseny != -1)
 		    {
+				if(i == chosenx || j ==  choseny)
+				{
+					int notblocked = 1;
+					for(int k = 0; k<9; k++)
+					{
+						for(int l = 0; l<9; l++)
+						{
+							if(k >= min(i,chosenx) && k <= max(i,chosenx) && l >= min(j,choseny) && l <= max(j,choseny))
+							{
+								if((getpiece(*board,k+l*9) != 0) && !(k == chosenx && l == choseny) && !(k == i && l == j))
+								{
+									notblocked = 0;
+								}
+							}
+						}
+					}
+					if(notblocked == 1)
+					{
+				
 			int piece = getpiece(*board,chosenx+choseny*9);
-			if(piece > 0 && getpiece(*board,i+j*9) == 0)
+			if(piece == 0x1 && getpiece(*board,i+j*9) == 0 && board->turn == 0)
 			{
 			    setpiece(board,chosenx+choseny*9,0x0);
 			    setpiece(board,i+j*9,piece);
+				board->turn = 1;
 			}
-		    }
+			if((piece == 0x2 || piece == 0x3)&& getpiece(*board,i+j*9) == 0 && board->turn == 1)
+			{
+			    setpiece(board,chosenx+choseny*9,0x0);
+			    setpiece(board,i+j*9,piece);
+				board->turn = 0;
+			} 
+				}
+		    }}
 		    chosenx = i;
 		    choseny = j;
 		}

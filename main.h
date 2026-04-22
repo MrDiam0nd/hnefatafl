@@ -3,11 +3,11 @@
 
 struct board{
     uint64_t pieces[3];
-    int queenx;
-    int queeny;
+    uint8_t turn;
 };
 
 int min(int a,int b);
+int max(int a,int b);
 int getpiece(struct board b, int pos);
 int setpiece(struct board* b, int pos, int piece);
 void printBits(uint64_t bits);
