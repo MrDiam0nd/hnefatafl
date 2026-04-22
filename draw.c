@@ -92,7 +92,7 @@ void DrawBoard(int width, int height, struct board *board)
 							}
 						}
 					}
-					if(((i==0&&j==0) || (i==8&&j==0) || (i==0&&j==8) || (i==8&&j==8) || (i==4&&j==4)) && getpiece(*board,i+j*9) != 0x3)
+					if(((i==0&&j==0) || (i==8&&j==0) || (i==0&&j==8) || (i==8&&j==8) || (i==4&&j==4)) && getpiece(*board,chosenx+choseny*9) != 0x3)
 					{
 						notblocked = 0;
 					}
@@ -104,12 +104,14 @@ void DrawBoard(int width, int height, struct board *board)
 			{
 			    setpiece(board,chosenx+choseny*9,0x0);
 			    setpiece(board,i+j*9,piece);
+			    checkmove(board,i, j);
 				board->turn = 1;
 			}
 			if((piece == 0x2 || piece == 0x3)&& getpiece(*board,i+j*9) == 0 && board->turn == 1)
 			{
 			    setpiece(board,chosenx+choseny*9,0x0);
 			    setpiece(board,i+j*9,piece);
+			    checkmove(board,i, j);
 				board->turn = 0;
 			} 
 				}

@@ -16,3 +16,4 @@ void clearbit(uint64_t* num, int pos);
 int collisionpointrect(int px,int py, int rx, int ry, int sx, int sy);
 void loadboard(struct board *board);
 void checkmove(struct board *board,int x, int y);
+int checkcapture(struct board board,int px,int py, int ox, int oy);

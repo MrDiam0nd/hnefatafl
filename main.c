@@ -220,66 +220,110 @@ void loadboard(struct board *board)
 
 void checkmove(struct board *board,int x, int y)
 {
-    int piece = getpiece(*board,x+y*9);
-    if(piece == 0x3){
-        piece = 0x2;
-    }
+    // checka om det finns en opponent
+    // om normal pjäs
+    // checka ett steg längre
+    // om kommpis eller speciell ruta, döda
+    //
+    // om dam
+    // checka ett steg längre och opp + stegxyflip och opp -stegxyflip
+    // döda
 
-    int a = -1;
-    int b = -1;
-    int c = -1;
-    int d = -1;
-
-    if(x+2 < 9)
+    if(x+1 < 9)
     {
-        a = x+2+y*9;
-        b = x+1+y*9;
-        if(y+1<9)
-        {
-            c = x+(y+1)*9;
-        }
-        if(y-1>=0)
-        {
-            d = x+(y-1)*9;
-        }
-
-        if((getpiece(*board,x+2+y*9) == piece) || (piece == 0x2 && getpiece(*board,x+2+y*9) == 0x3) || (x+2+y*9==4+4*9) || (x+2+y*9==0+0*9) ||(x+2+y*9==0+8*9) ||(x+2+y*9==8+0*9) ||(x+2+y*9==8+8*9))
-        {
-            if(getpiece(*board,x+1+y*9) == (piece ^ 0x3))
-            {
-                setpiece(board,x+1+y*9,0);
-            }
-            if(getpiece(*board,x+1+y*9) == 0x3 && piece == 0x1)
-            {
-                int kill = 1;
-                if(y+1<9)
-                {
-                    if(getpiece(*board,x+1+(y+1)*9) != 0x1 && !(x+1+(y+1)*9==4+4*9) && !(x+1+(y+1)*9==0+0*9) && !(x+1+(y+1)*9==0+8*9) && !(x+1+(y+1)*9==8+0*9) && !(x+1+(y+1)*9==8+8*9))
-                    {
-                        kill = 0;
-                    }
-                }
-                if(y-1>=0)
-                {
-                    if(getpiece(*board,x+1+(y-1)*9) != 0x1 && !(x+1+(y-1)*9==4+4*9) && !(x+1+(y-1)*9==0+0*9) && !(x+1+(y-1)*9==0+8*9) && !(x+1+(y-1)*9==8+0*9) && !(x+1+(y-1)*9==8+8*9))
-                    {
-                        kill = 0;
-                    }
-                }
-                setpiece(board,x+1+y*9,0);
-            }
-        }
+	if(checkcapture(*board,x,y,x+1,y) ==1)
+	{
+	    setpiece(board,x+1+y*9,0x0);
+	}
     }
-    if(y+2 < 9)
+    if(y+1 < 9)
     {
+	if(checkcapture(*board,x,y,x,y+1) ==1)
+	{
+	    setpiece(board,x+(y+1)*9,0x0);
+	}
 
     }
-    if(x-2 >= 0)
+    if(x-1 >= 0)
     {
+	if(checkcapture(*board,x,y,x-1,y) ==1)
+	{
+	    setpiece(board,x-1+y*9,0x0);
+	}
 
     }
-    if(y-2 >= 0)
+    if(y-1 >= 0)
     {
+	if(checkcapture(*board,x,y,x,y-1) ==1)
+	{
+	    setpiece(board,x+(y-1)*9,0x0);
+	}
 
     }
 }
+
+int checkcapture(struct board board,int px,int py, int ox, int oy)
+{
+    // checka om det finns en opponent
+    // om normal pjäs
+    // checka ett steg längre
+    // om kommpis eller speciell ruta, döda
+    //
+    // om dam
+    // checka ett steg längre och opp + stegxyflip och opp -stegxyflip
+    // döda
+
+    int piece = getpiece(board,px+(py)*9);
+    int diffx = ox-px;
+    int diffy = oy-py;
+
+    if(getpiece(board,ox+(oy)*9) == 0x1 && (piece == 0x2 || piece == 0x3))
+    {
+	if(ox+diffx < 9 && ox+diffx >= 0 && oy+diffy < 9 && oy+diffy >= 0)
+	{
+	    if(getpiece(board,ox+diffx+(oy+diffy)*9)==0x2 || getpiece(board,ox+diffx+(oy+diffy)*9)==0x3 || (ox+diffx+(oy+diffy)*9==0+0*9) || (ox+diffx+(oy+diffy)*9==0+8*9) || (ox+diffx+(oy+diffy)*9==8+0*9) || (ox+diffx+(oy+diffy)*9==8+8*9) || (ox+diffx+(oy+diffy)*9==4+4*9))
+	    {
+		return 1;
+	    }
+	}
+    }
+    if(getpiece(board,ox+(oy)*9) == 0x2 && piece == 0x1)
+    {
+	if(ox+diffx < 9 && ox+diffx >= 0 && oy+diffy < 9 && oy+diffy >= 0)
+	{
+	    if(getpiece(board,ox+diffx+(oy+diffy)*9)==0x1 || (ox+diffx+(oy+diffy)*9==0+0*9) || (ox+diffx+(oy+diffy)*9==0+8*9) || (ox+diffx+(oy+diffy)*9==8+0*9) || (ox+diffx+(oy+diffy)*9==8+8*9) || (ox+diffx+(oy+diffy)*9==4+4*9))
+	    {
+		return 1;
+	    }
+	}
+    }
+    if(getpiece(board,ox+(oy)*9) == 0x3 && piece == 0x1)
+    { 
+	int kill = 1;
+	if(ox+diffx < 9 && ox+diffx >= 0 && oy+diffy < 9 && oy+diffy >= 0)
+	{
+	    if(getpiece(board,ox+diffx+(oy+diffy)*9)!=0x1 && (ox+diffx+(oy+diffy)*9!=0+0*9) && (ox+diffx+(oy+diffy)*9!=0+8*9) && (ox+diffx+(oy+diffy)*9!=8+0*9) && (ox+diffx+(oy+diffy)*9!=8+8*9) && (ox+diffx+(oy+diffy)*9!=4+4*9))
+	    {
+		kill=0;
+	    }
+	}
+	if(ox+diffy < 9 && ox+diffy >= 0 && oy+diffx < 9 && oy+diffx >= 0)
+	{
+	    if(getpiece(board,ox+diffy+(oy+diffx)*9)!=0x1 && (ox+diffy+(oy+diffx)*9!=0+0*9) && (ox+diffy+(oy+diffx)*9!=0+8*9) && (ox+diffy+(oy+diffx)*9!=8+0*9) && (ox+diffy+(oy+diffx)*9!=8+8*9) && (ox+diffy+(oy+diffx)*9!=4+4*9))
+	    {
+		kill=0;
+	    }
+	}
+	if(ox-diffy < 9 && ox-diffy >= 0 && oy-diffx < 9 && oy-diffx >= 0)
+	{
+	    if(getpiece(board,ox-diffy+(oy-diffx)*9)!=0x1 && (ox-diffy+(oy-diffx)*9!=0+0*9) && (ox-diffy+(oy-diffx)*9!=0+8*9) && (ox-diffy+(oy-diffx)*9!=8+0*9) && (ox-diffy+(oy-diffx)*9!=8+8*9) && (ox-diffy+(oy-diffx)*9!=4+4*9))
+	    {
+		kill=0;
+	    }
+	}
+	return kill;
+    }
+
+    return 0;
+}
+
