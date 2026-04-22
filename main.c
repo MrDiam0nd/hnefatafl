@@ -218,10 +218,68 @@ void loadboard(struct board *board)
     board->turn = 0;
 }
 
-void checkcaptures(struct board *board,int x, int y)
+void checkmove(struct board *board,int x, int y)
 {
-    if(getpiece(*board,x+y*9) == 0x1)
-    {   
-        int checkpiece = 0x2;
+    int piece = getpiece(*board,x+y*9);
+    if(piece == 0x3){
+        piece = 0x2;
+    }
+
+    int a = -1;
+    int b = -1;
+    int c = -1;
+    int d = -1;
+
+    if(x+2 < 9)
+    {
+        a = x+2+y*9;
+        b = x+1+y*9;
+        if(y+1<9)
+        {
+            c = x+(y+1)*9;
+        }
+        if(y-1>=0)
+        {
+            d = x+(y-1)*9;
+        }
+
+        if((getpiece(*board,x+2+y*9) == piece) || (piece == 0x2 && getpiece(*board,x+2+y*9) == 0x3) || (x+2+y*9==4+4*9) || (x+2+y*9==0+0*9) ||(x+2+y*9==0+8*9) ||(x+2+y*9==8+0*9) ||(x+2+y*9==8+8*9))
+        {
+            if(getpiece(*board,x+1+y*9) == (piece ^ 0x3))
+            {
+                setpiece(board,x+1+y*9,0);
+            }
+            if(getpiece(*board,x+1+y*9) == 0x3 && piece == 0x1)
+            {
+                int kill = 1;
+                if(y+1<9)
+                {
+                    if(getpiece(*board,x+1+(y+1)*9) != 0x1 && !(x+1+(y+1)*9==4+4*9) && !(x+1+(y+1)*9==0+0*9) && !(x+1+(y+1)*9==0+8*9) && !(x+1+(y+1)*9==8+0*9) && !(x+1+(y+1)*9==8+8*9))
+                    {
+                        kill = 0;
+                    }
+                }
+                if(y-1>=0)
+                {
+                    if(getpiece(*board,x+1+(y-1)*9) != 0x1 && !(x+1+(y-1)*9==4+4*9) && !(x+1+(y-1)*9==0+0*9) && !(x+1+(y-1)*9==0+8*9) && !(x+1+(y-1)*9==8+0*9) && !(x+1+(y-1)*9==8+8*9))
+                    {
+                        kill = 0;
+                    }
+                }
+                setpiece(board,x+1+y*9,0);
+            }
+        }
+    }
+    if(y+2 < 9)
+    {
+
+    }
+    if(x-2 >= 0)
+    {
+
+    }
+    if(y-2 >= 0)
+    {
+
     }
 }
