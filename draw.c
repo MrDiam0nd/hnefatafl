@@ -102,17 +102,21 @@ void DrawBoard(int width, int height, struct board *board)
 			int piece = getpiece(*board,chosenx+choseny*9);
 			if(piece == 0x1 && getpiece(*board,i+j*9) == 0 && board->turn == 0)
 			{
+				board->turn = 1;
 			    setpiece(board,chosenx+choseny*9,0x0);
 			    setpiece(board,i+j*9,piece);
 			    checkmove(board,i, j);
-				board->turn = 1;
 			}
 			if((piece == 0x2 || piece == 0x3)&& getpiece(*board,i+j*9) == 0 && board->turn == 1)
 			{
+				board->turn = 0;
 			    setpiece(board,chosenx+choseny*9,0x0);
 			    setpiece(board,i+j*9,piece);
 			    checkmove(board,i, j);
-				board->turn = 0;
+				if((i==0&&j==0) || (i==8&&j==0) || (i==0&&j==8) || (i==8&&j==8) || (i==4&&j==4))
+				{
+					board->turn = 3;
+				}
 			} 
 				}
 		    }}
@@ -127,6 +131,16 @@ void DrawBoard(int width, int height, struct board *board)
 	    }
 	}
     }
+
+	if(board->turn == 2)
+	{
+	    DrawText("Black wins", 10, 40, 20, BLACK);
+	}
+
+	if(board->turn == 3)
+	{
+	    DrawText("White wins", 10, 40, 20, BLACK);
+	}
 
     EndDrawing();
     return;

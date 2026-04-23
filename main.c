@@ -215,7 +215,7 @@ void loadboard(struct board *board)
 	}
     }
 
-    board->turn = 0;
+    board->turn = 1;
 }
 
 void checkmove(struct board *board,int x, int y)
@@ -235,9 +235,11 @@ void checkmove(struct board *board,int x, int y)
 	{
 case 1: 
 	    setpiece(board,x+1+y*9,0x0);
+		break;
 case 2:
-	    setpiece(board,x+1+y*9,0x0);
+	    // setpiece(board,x+1+y*9,0x0);
 	    board->turn = 2;
+		break;
 
 	}
     }
@@ -247,9 +249,11 @@ case 2:
 	{
 case 1: 
 	    setpiece(board,x+(y+1)*9,0x0);
+		break;
 case 2:
-	    setpiece(board,x+(y+1)*9,0x0);
+	    // setpiece(board,x+(y+1)*9,0x0);
 	    board->turn = 2;
+		break;
 
 	}
     }
@@ -259,9 +263,11 @@ case 2:
 	{
 case 1: 
 	    setpiece(board,x-1+y*9,0x0);
+		break;
 case 2:
-	    setpiece(board,x-1+y*9,0x0);
+	    // setpiece(board,x-1+y*9,0x0);
 	    board->turn = 2;
+		break;
 
 	}
     }
@@ -271,9 +277,11 @@ case 2:
 	{
 case 1: 
 	    setpiece(board,x+(y-1)*9,0x0);
+		break;
 case 2:
-	    setpiece(board,x+(y-1)*9,0x0);
+	    // setpiece(board,x+(y-1)*9,0x0);
 	    board->turn = 2;
+		break;
 
 	}
     }
