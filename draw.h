@@ -6,3 +6,4 @@ extern float bordersize;
 extern float gapsize;
 
 void DrawBoard(int width, int height, struct board *board);
+int checklegal(struct board board,int originx, int originy, int chosenx, int choseny);

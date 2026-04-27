@@ -1,9 +1,17 @@
 #pragma once
 #include "raylib.h"
+#include <stdint.h>
 
 struct board{
     uint64_t pieces[3];
     uint8_t turn;
+};
+
+struct move{
+    int fromx;
+    int fromy;
+    int tox;
+    int toy;
 };
 
 int min(int a,int b);

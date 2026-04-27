@@ -9,7 +9,7 @@ int main()
 {
     int windowWidth = 800;
     int windowHeight = 450;
-    InitWindow(windowWidth,windowHeight,"basic window");
+    InitWindow(windowWidth,windowHeight,"Hnefatafl");
 
     SetTargetFPS(30);
     SetWindowState(FLAG_WINDOW_RESIZABLE);
@@ -316,7 +316,7 @@ int checkcapture(struct board board,int px,int py, int ox, int oy)
     {
 	if(ox+diffx < 9 && ox+diffx >= 0 && oy+diffy < 9 && oy+diffy >= 0)
 	{
-	    if(getpiece(board,ox+diffx+(oy+diffy)*9)==0x1 || (ox+diffx+(oy+diffy)*9==0+0*9) || (ox+diffx+(oy+diffy)*9==0+8*9) || (ox+diffx+(oy+diffy)*9==8+0*9) || (ox+diffx+(oy+diffy)*9==8+8*9) || (ox+diffx+(oy+diffy)*9==4+4*9))
+	    if(getpiece(board,ox+diffx+(oy+diffy)*9)==0x1 || (ox+diffx+(oy+diffy)*9==0+0*9) || (ox+diffx+(oy+diffy)*9==0+8*9) || (ox+diffx+(oy+diffy)*9==8+0*9) || (ox+diffx+(oy+diffy)*9==8+8*9) || (ox+diffx+(oy+diffy)*9==4+4*9 && getpiece(board,ox+diffx+(oy+diffy)*9)!=0x3))
 	    {
 		return 1;
 	    }
